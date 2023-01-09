@@ -55,6 +55,13 @@ convert -size 400x400 xc:#990000 -gravity Center -pointsize 30 -annotate 0 'STOP
 convert -size 400x400 xc:#990000 -gravity Center -pointsize 30 -annotate 0 'STOP' ${WORK_DIR}/barblaster-split-9999.png
 
 #Convert PNG to animated GIF
-convert -delay ${SPLIT_DELAY} -loop 0 -resize 400x400 ${WORK_DIR}/barblaster-split-*.png barblaster-data.gif
+convert -delay ${SPLIT_DELAY} -loop 0 -resize 400x400 ${WORK_DIR}/barblaster-split-*.png ${WORK_DIR}/barblaster-data.gif
+
+#Move to current directory
+OUT_FILE=$(echo "${INPUT_FILE}" | sed "s/\..*$/.gif/")
+cp ${WORK_DIR}/barblaster-data.gif $(basename ${OUT_FILE})
+
+OUT_FILE=$(echo "${INPUT_FILE}" | sed "s/\..*$/.mp4/")
+ffmpeg -f gif -i ${WORK_DIR}/barblaster-data.gif $(basename ${OUT_FILE}) > /dev/null 2>&1
 
 echo "${INPUT_FILE} ($(du -b -s ${INPUT_FILE}|cut -f1) bytes), was converted to $(ls ${WORK_DIR}/*.png | wc -l) images totaling $(du -b -s *.gif | cut -f1) bytes."
