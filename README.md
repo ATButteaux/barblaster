@@ -1,10 +1,8 @@
 # barblaster
-Converts a file into an animated GIF (and now mp4 for easy playback on demand) of QR codes for the purpose of transferring file over an airgap (screen to webcam)
+This is a suite of scripts that will convert a file into an a stream of QR Codes in mp4 format for the purpose of transferring the file over an airgap (screen to webcam).
 
-Play video with `mpv --pause --keep-open --window-scale=2 <filename>`
+`barblaster.sh <input_filename>` will convert the input file to a similarly named MP4.
 
-On the recieving end, run `zbarcam --raw --quiet | base64 -d | tee <filename>`
+`barblaster-play.sh <filename>` will play the mp4 in my preferred player with preferred options.
 
-Close zbarcam window and images will get processed and file will appear.
-
-Effective throughput is about 1500 bps with current frame rate.
+`barblaster-rx.sh` is run on the receiving computer. It will prompt user to scan in QR Code stream, then decode the stream into the original file. It will display a partial hash of the original file for confirmation.
